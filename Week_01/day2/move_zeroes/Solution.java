@@ -9,14 +9,11 @@ package move_zeroes;
  */
 class Solution {
     public void moveZeroes(int[] nums) {
-        int firstZeroAt;
-        for (firstZeroAt = 0; firstZeroAt < nums.length; firstZeroAt++)
-            if (nums[firstZeroAt] == 0) break;
-
-        for (int i = firstZeroAt + 1; i < nums.length; i++)
+        for (int i = 0, firstZeroAt = 0; i < nums.length; i++)
             if (nums[i] != 0) {
-                nums[firstZeroAt++] = nums[i];
-                nums[i] = 0;
+                int temp = nums[i];
+                nums[i] = nums[firstZeroAt];
+                nums[firstZeroAt++] = temp;
             }
     }
 }
