@@ -14,10 +14,10 @@ import java.util.Set;
  */
 class Solution1 {
     public boolean hasCycle(ListNode head) {
-        Set<ListNode> set = new HashSet<>();
+        Set<ListNode> visited = new HashSet<>();
         while (head != null) {
-            if (set.contains(head)) return true;
-            set.add(head);
+            if (visited.contains(head)) return true;
+            visited.add(head);
             head = head.next;
         }
         return false;
@@ -32,7 +32,7 @@ class Solution1 {
 class Solution2 {
     public boolean hasCycle(ListNode head) {
         if (head == null || head.next == null) return false;
-        ListNode slow = head, fast = head.next;
+        ListNode slow = head.next, fast = head.next.next;
         while (slow != fast) {
             if (fast == null || fast.next == null) return false;
             slow = slow.next;

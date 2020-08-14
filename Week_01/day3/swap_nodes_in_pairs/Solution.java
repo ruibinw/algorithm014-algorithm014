@@ -13,8 +13,7 @@ class Solution1 {
     public ListNode swapPairs(ListNode head) {
         if (head == null || head.next == null)
             return head;
-        ListNode first = head;
-        ListNode second = head.next;
+        ListNode first = head, second = head.next;
         first.next = swapPairs(second.next);
         second.next = first;
         return second;
@@ -30,14 +29,13 @@ class Solution2 {
     public ListNode swapPairs(ListNode head) {
         ListNode dummy = new ListNode(0);
         dummy.next = head;
-        ListNode prev = dummy;
-        while (head != null && head.next != null) {
-            ListNode first = head, second = first.next, third = second.next;
-            prev.next = second;
+        head = dummy;
+        while (head.next != null && head.next.next != null) {
+            ListNode first = head.next, second = first.next, nextPair = second.next;
+            head.next = second;
             second.next = first;
-            first.next = third;
-            prev = first;
-            head = third;
+            first.next = nextPair;
+            head = first;
         }
         return dummy.next;
     }
