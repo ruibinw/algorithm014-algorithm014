@@ -73,7 +73,8 @@ class MinStack2 {
     }
 
     public void pop() {
-        if (valStack.pop() == minStack.peek())
+        int top = valStack.pop();
+        if (top == minStack.peek())
             minStack.pop();
     }
 

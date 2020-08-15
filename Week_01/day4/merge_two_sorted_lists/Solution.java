@@ -1,7 +1,5 @@
 package merge_two_sorted_lists;
 
-import linked_list.ListNode;
-
 //https://leetcode-cn.com/problems/merge-two-sorted-lists/
 
 /**
@@ -12,18 +10,18 @@ import linked_list.ListNode;
 class Solution1 {
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         ListNode dummy = new ListNode(0);
-        ListNode p = dummy;
+        ListNode cur = dummy;
         while (l1 != null && l2 != null) {
             if (l1.val <= l2.val) {
-                p.next = l1;
+                cur.next = l1;
                 l1 = l1.next;
             } else {
-                p.next = l2;
+                cur.next = l2;
                 l2 = l2.next;
             }
-            p = p.next;
+            cur = cur.next;
         }
-        p.next = (l1 != null) ? l1 : l2;
+        cur.next = (l1 != null) ? l1 : l2;
         return dummy.next;
     }
 }
@@ -45,5 +43,16 @@ class Solution2 {
             l2.next = mergeTwoLists(l1, l2.next);
             return l2;
         }
+    }
+}
+
+/**
+ * Definition for singly-linked list
+ */
+class ListNode {
+    public int val;
+    public ListNode next;
+    public ListNode(int val) {
+        this.val = val;
     }
 }
