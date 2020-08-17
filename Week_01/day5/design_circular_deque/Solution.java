@@ -2,9 +2,6 @@ package design_circular_deque;
 
 //https://leetcode-cn.com/problems/design-circular-deque/
 
-/**
- *
- */
 class MyCircularDeque {
 
     private int[] data;
@@ -20,8 +17,7 @@ class MyCircularDeque {
     }
 
     public boolean insertFront(int value) {
-        if (isFull())
-            return false;
+        if (isFull()) return false;
         front = (front - 1 + capacity) % capacity;
         data[front] = value;
         return true;
@@ -29,16 +25,14 @@ class MyCircularDeque {
     }
 
     public boolean insertLast(int value) {
-        if (isFull())
-            return false;
+        if (isFull()) return false;
         data[rear] = value;
         rear = (rear + 1) % capacity;
         return true;
     }
 
     public boolean deleteFront() {
-        if (isEmpty())
-            return false;
+        if (isEmpty()) return false;
         front = (front + 1) % capacity;
         return true;
     }
@@ -51,16 +45,11 @@ class MyCircularDeque {
     }
 
     public int getFront() {
-        if (isEmpty())
-            return -1;
-        return data[front];
+        return isEmpty() ? -1 : data[front];
     }
 
     public int getRear() {
-        if (isEmpty())
-            return -1;
-        //rear指向的位置是空的，最后一个元素的位置是 rear - 1
-        return data[(rear - 1 + capacity) % capacity];//rear为0时，防止数组越界
+        return isEmpty() ? -1 : data[(rear - 1 + capacity) % capacity];
     }
 
     public boolean isEmpty() {

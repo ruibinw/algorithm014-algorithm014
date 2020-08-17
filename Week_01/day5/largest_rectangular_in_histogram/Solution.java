@@ -33,9 +33,48 @@ class Solution1 {
 /**
  * 使用栈，以空间换时间
  * 时间复杂度：O(n)
- * 空间复杂度：
+ * 空间复杂度：O(n)
  */
 class Solution2 {
+    public int largestRectangleArea(int[] heights) {
+        if (heights == null || heights.length == 0) return 0;
+
+        int n = heights.length;
+        int[] leftIndex = new int[n];
+        int[] rightIndex = new int[n];
+        leftIndex[0] = -1;
+        rightIndex[n - 1] = n;
+
+        for (int i = 1; i < n; i++) {
+            int p = i - 1;
+            while (p >= 0 && heights[p] >= heights[i]) {
+                p = leftIndex[p];
+            }
+            leftIndex[i] = p;
+        }
+
+        for (int i = n - 2; i >= 0; i--) {
+            int p = i + 1;
+            while (p < n && heights[p] >= heights[i]) {
+                p = rightIndex[p];
+            }
+            rightIndex[i] = p;
+        }
+
+        int maxArea = 0;
+        for (int i = 0; i < n; i++) {
+            maxArea = Math.max(maxArea, (rightIndex[i] - leftIndex[i] - 1) * heights[i]);
+        }
+        return maxArea;
+    }
+}
+
+/**
+ * 使用栈，以空间换时间
+ * 时间复杂度：O(n)
+ * 空间复杂度：
+ */
+class Solution3 {
     public int largestRectangleArea(int[] heights) {
         int len = heights.length;
         int maxArea = 0;
