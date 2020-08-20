@@ -12,6 +12,8 @@ import java.util.Stack;
  */
 class Solution1 {
     public int largestRectangleArea(int[] heights) {
+        if (heights == null || heights.length == 0) return 0;
+
         int n = heights.length;
         int maxArea = 0;
         for (int mid = 0; mid < n; mid++) {
@@ -72,15 +74,18 @@ class Solution2 {
 /**
  * 使用栈，以空间换时间
  * 时间复杂度：O(n)
- * 空间复杂度：
+ * 空间复杂度：O(n)
  */
 class Solution3 {
     public int largestRectangleArea(int[] heights) {
-        int len = heights.length;
+        if (heights == null || heights.length == 0) return 0;
+
+        int n = heights.length;
         int maxArea = 0;
         Stack<Integer> stack = new Stack<>();
-        for (int i = 0; i <= len; ) {
-            int h = (i == len ? 0 : heights[i]);
+
+        for (int i = 0; i <= n; ) {
+            int h = (i == n ? 0 : heights[i]);
             if (stack.isEmpty() || h >= heights[stack.peek()]) {
                 stack.push(i++);
             } else {

@@ -2,13 +2,10 @@ package remove_outermost_parentheses;
 
 /**
  * 双指针
+ * 时间复杂度：O(n)
+ * 空间复杂度：O(n)，使用了额外空间存放最终答案
  */
 class Solution1 {
-    public static void main(String[] args) {
-        String s = "((()))(()())(())";
-        String s1 = new Solution1().removeOuterParentheses(s);
-        System.out.println(s1);
-    }
     public String removeOuterParentheses(String S) {
         int left = 1, right = 0;
         StringBuilder result = new StringBuilder();
@@ -31,11 +28,17 @@ class Solution1 {
     }
 }
 
+/**
+ * 使用计数器
+ * 时间复杂度：O(n)
+ * 空间复杂度：O(n)，使用了额外空间存放最终答案
+ */
 class Solution2 {
     public String removeOuterParentheses(String S) {
-        StringBuilder s = new StringBuilder();
+        StringBuilder s = new StringBuilder(); S.substring(1,1);
         int opened = 0;
-        for (char c : S.toCharArray()) {
+        for (int i = 0; i < S.length(); i++) {
+            char c = S.charAt(i);
             if (c == '(' && opened++ > 0) s.append(c);
             if (c == ')' && opened-- > 1) s.append(c);
         }
