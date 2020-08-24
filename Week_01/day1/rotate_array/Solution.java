@@ -14,11 +14,11 @@ class Solution1 {
         }
     }
     private void rotateOneStep(int[] nums) {
-        for (int j = 1; j < nums.length; j++) {
-            int tmp = nums[j];
-            nums[j] = nums[0];
-            nums[0] = tmp;
+        int last = nums[nums.length - 1];
+        for (int j = nums.length - 1; j > 0; j--) {
+            nums[j] = nums[j - 1];
         }
+        nums[0] = last;
     }
 }
 
