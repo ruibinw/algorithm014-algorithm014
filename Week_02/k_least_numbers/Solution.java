@@ -47,6 +47,32 @@ class Solution2 {
  */
 class Solution3 {
     public int[] getLeastNumbers(int[] arr, int k) {
-        return null;
+        if (arr.length == 0 || k == 0) return new int[0];
+        return quickSearch(arr, 0, arr.length - 1, k - 1);
+    }
+
+    private int[] quickSearch(int[] arr, int lo, int hi, int k) {
+        int i = partition(arr, lo, hi);
+        if (i == k)
+            return Arrays.copyOf(arr, i + 1);
+        return i > k ? quickSearch(arr, lo, i - 1, k) : quickSearch(arr, i + 1, hi, k);
+    }
+
+    private int partition(int[] arr, int lo, int hi) {
+        int pivot = arr[hi];
+        int i = lo;
+        for (int j = lo; j < hi; j++) {
+            if (arr[j] < pivot) {
+                swap(arr, i++, j);
+            }
+        }
+        swap(arr, i, hi);
+        return i;
+    }
+
+    private void swap(int[] arr, int i, int j) {
+        int tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
     }
 }
