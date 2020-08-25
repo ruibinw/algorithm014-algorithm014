@@ -1,4 +1,4 @@
-package binary_tree_inorder_traversal;
+package binary_tree_postorder_traversal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,41 +6,43 @@ import java.util.Stack;
 
 /**
  * 递归
- * 时间复杂度：O(n)
- * 空间复杂度：平均 O(logn)，最坏树退化成链表 O(n)
  */
 class Solution1 {
-    public List<Integer> inorderTraversal(TreeNode root) {
+    public List<Integer> postorderTraversal(TreeNode root) {
         List<Integer> result = new ArrayList<>();
         traversal(root, result);
         return result;
     }
+
     private void traversal(TreeNode root, List<Integer> result) {
         if (root == null) return;
         traversal(root.left, result);
-        result.add(root.val);
         traversal(root.right, result);
+        result.add(root.val);
     }
 }
 
 /**
- * 迭代 + 栈
- * 时间复杂度：O(n)
- * 空间复杂度：O(logn), 栈存放最多元素是树的高度
+ * 迭代
  */
 class Solution2 {
-    public List<Integer> inorderTraversal(TreeNode root) {
+    public List<Integer> postorderTraversal(TreeNode root) {
         List<Integer> result = new ArrayList<>();
-        //使用栈模拟递归的调用过程
         Stack<TreeNode> stack = new Stack<>();
-        while (root != null || !stack.isEmpty()) {
-            while (root != null) {
-                stack.push(root);
-                root = root.left;
+
+        if (root != null) stack.push(root);
+
+        while (!stack.isEmpty()) {
+            TreeNode p = stack.pop();
+            if (p != null) {
+                stack.push(p);
+                stack.push(null);
+                if (p.right != null) stack.push(p.right);
+                if (p.left != null) stack.push(p.left);
+            } else {
+                p = stack.pop();
+                result.add(p.val);
             }
-            root = stack.pop();
-            result.add(root.val);
-            root = root.right;
         }
         return result;
     }
