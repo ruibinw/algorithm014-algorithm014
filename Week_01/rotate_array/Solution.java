@@ -9,16 +9,15 @@ package rotate_array;
  */
 class Solution1 {
     public void rotate(int[] nums, int k) {
+        int n = nums.length;
+        k = k % n;
         for (int i = 0; i < k; i++) {
-            rotateOneStep(nums);
+            int lastNum = nums[n - 1];
+            for (int j = n - 1; j > 0; j--) {
+                nums[j] = nums[j - 1];
+            }
+            nums[0] = lastNum;
         }
-    }
-    private void rotateOneStep(int[] nums) {
-        int last = nums[nums.length - 1];
-        for (int j = nums.length - 1; j > 0; j--) {
-            nums[j] = nums[j - 1];
-        }
-        nums[0] = last;
     }
 }
 
@@ -30,7 +29,7 @@ class Solution1 {
 class Solution2 {
     public void rotate(int[] nums, int k) {
         int n = nums.length;
-        k = k % n;//k>n时，移动 k 次 相当于移动 k%n 次
+        k %= n;//k>n时，移动 k 次 相当于移动 k%n 次
         int count = 0;
         for (int start = 0; count < n; start++) {
             int cur = start;
@@ -60,6 +59,7 @@ class Solution3 {
         reverse(nums, 0, k - 1);
         reverse(nums, k, n - 1);
     }
+
     private void reverse(int[] nums, int start, int end) {
         while (start < end) {
             int tmp = nums[start];
