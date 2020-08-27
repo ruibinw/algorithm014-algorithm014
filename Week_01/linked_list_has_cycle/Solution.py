@@ -11,11 +11,11 @@ class Solution1:
 
 class Solution2:
     def has_cycle(self, head: ListNode) -> bool:
-        if not (head and head.next):
-            return False
-        slow, fast = head.next, head.next.next
-        while slow != fast:
-            if not (fast and fast.next):
-                return False
-            slow, fast = slow.next, fast.next.next
-        return True
+        walker = head
+        runner = head
+        while runner and runner.next:
+            walker = walker.next
+            runner = runner.next.next
+            if runner == walker:
+                return True
+        return False
