@@ -1,5 +1,8 @@
 package binary_heap;
 
+/**
+ * Max heap in Java
+ */
 public class MaxHeap {
     private static final int INITIAL_CAPACITY = 15;
     private int[] heap;
@@ -76,12 +79,15 @@ public class MaxHeap {
         return heap[0];
     }
 
+    /**
+     * Heap Sort Implementation
+     */
     public static void sort(int[] nums) {
         MaxHeap heap = new MaxHeap(nums);
         heap.sort();
     }
 
-    public MaxHeap(int[] nums) {
+    private MaxHeap(int[] nums) {
         heap = nums;
         heapSize = nums.length;
         for (int i = heapSize / 2 - 1; i >= 0 ; i--) {
@@ -96,5 +102,4 @@ public class MaxHeap {
             heapifyDown(0, tmp);
         }
     }
-
 }
