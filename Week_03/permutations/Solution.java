@@ -7,19 +7,24 @@ class Solution {
     List<List<Integer>> res = new ArrayList<>();
 
     public List<List<Integer>> permute(int[] nums) {
-        findPermutations(nums, new ArrayList<>());
+        findPermutations(nums, new ArrayList<>(), new boolean[nums.length]);
         return res;
     }
 
-    private void findPermutations(int[] nums, ArrayList<Integer> list) {
+    private void findPermutations(int[] nums, ArrayList<Integer> list, boolean[] used) {
         if (list.size() == nums.length) {
             res.add(new ArrayList<>(list));
             return;
         }
         for (int i = 0; i < nums.length; i++) {
-            if (list.contains(nums[i])) continue;
+            if (used[i]) continue;
+
             list.add(nums[i]);
-            findPermutations(nums, new ArrayList<>(list));
+            used[i] = true;
+
+            findPermutations(nums, list, used);
+
+            used[i] = false;
             list.remove(list.size() - 1);
         }
     }
