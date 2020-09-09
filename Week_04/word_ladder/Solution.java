@@ -4,7 +4,7 @@ import java.util.*;
 
 /**
  * BFS，单向搜索
- * Time: O(n*26*m*m), n=wordList.size, m = wordLength (1st m = iterating to change every char in word, 2nd m = creating string from char array)
+ * Time: O(n*26*m), n=wordList.size, m = wordLength
  * Space: O(n)
  */
 class Solution1 {
