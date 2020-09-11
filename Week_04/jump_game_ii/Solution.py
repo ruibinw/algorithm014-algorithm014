@@ -22,7 +22,7 @@ class Solution2:
 
         jmp, cur_end = 0, 0
         loc, max_loc = 0, 0
-        while loc <= max_loc:
+        while loc <= cur_end:
             max_loc = max(max_loc, loc + nums[loc])
             if max_loc >= last:
                 return jmp + 1
