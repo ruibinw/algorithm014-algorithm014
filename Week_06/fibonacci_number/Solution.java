@@ -18,7 +18,15 @@ class Solution1 {
  */
 class Solution2 {
     public int fib(int N) {
-        return N < 2 ? N : fib(N - 1) + fib(N - 2);
+        return fib(N, new int[N + 1]);
+    }
+    private int fib(int n, int[] cache) {
+        if (n < 2)
+            return n;
+        if (cache[n] != 0)
+            return cache[n];
+        cache[n] = fib(n - 1, cache) + fib(n - 2, cache);
+        return cache[n];
     }
 }
 
