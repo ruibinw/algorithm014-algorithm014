@@ -3,7 +3,13 @@ package permutations;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 回溯
+ * Time: O(n*n!)，调用回溯方法的次数
+ * Space: O(n)，递归的深度，如果算上结果集 O(n!) 叶子节点（最终结果）的个数
+ */
 class Solution {
+
     List<List<Integer>> res = new ArrayList<>();
 
     public List<List<Integer>> permute(int[] nums) {
