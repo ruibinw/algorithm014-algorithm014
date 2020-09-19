@@ -27,7 +27,7 @@ class Solution1 {
 }
 
 /**
- * BFS
+ * BFS, reverse push
  */
 class Solution2 {
     public List<Integer> postorder(Node root) {
@@ -42,5 +42,31 @@ class Solution2 {
             }
         }
         return res;
+    }
+}
+
+/**
+ * BFS,
+ */
+class Solution3 {
+    public List<Integer> postorder(Node root) {
+        List<Integer> result = new ArrayList<>();
+        Stack<Node> stack = new Stack<>();
+
+        if (root != null) stack.push(root);
+
+        while (!stack.isEmpty()) {
+            Node p = stack.pop();
+            if (p != null) {
+                stack.push(p);
+                stack.push(null);
+                for (int i = p.children.size() - 1; i >= 0 ; i--) {
+                    stack.push(p.children.get(i));
+                }
+            } else {
+                result.add(stack.pop().val);
+            }
+        }
+        return result;
     }
 }
