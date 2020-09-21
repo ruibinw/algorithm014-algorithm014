@@ -33,15 +33,15 @@ class Solution2 {
         Integer[] curMin = new Integer[nums.length]; curMin[0] = nums[0];
 
         for (int i = 1; i < nums.length; i++) {
-            if (nums[i] < 0) {
-                Integer[] tmp = curMax;
-                curMax = curMin;
-                curMin = tmp;
+            if (nums[i] >= 0) {
+                curMax[i] = Math.max(curMax[i - 1] * nums[i], nums[i]);
+                curMin[i] = Math.min(curMin[i - 1] * nums[i], nums[i]);
+            } else {
+                curMax[i] = Math.max(curMin[i - 1] * nums[i], nums[i]);
+                curMin[i] = Math.min(curMax[i - 1] * nums[i], nums[i]);
             }
-            curMax[i] = Math.max(curMax[i - 1] * nums[i], nums[i]);
-            curMin[i] = Math.min(curMin[i - 1] * nums[i], nums[i]);
         }
-        return Math.max(Collections.max(Arrays.asList(curMax)), Collections.max(Arrays.asList(curMin)));
+        return Collections.max(Arrays.asList(curMax));
     }
 }
 
