@@ -1,30 +1,43 @@
 package house_robber;
 
 /**
- * 动态规划，二维数组
+ * DFS
  */
 class Solution1 {
     public int rob(int[] nums) {
-        int n = nums.length;
-        if (n < 2) return n == 0 ? 0 : nums[0];
-
-        int[][] dp = new int[n][2];//0 不偷当前房屋，1 偷当前房屋
-        dp[0][0] = 0;
-        dp[0][1] = nums[0];
-
-        for (int i = 1; i < n; i++) {
-            dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1]); //不偷
-            dp[i][1] = dp[i - 1][0] + nums[i];               //偷
+        return rob(nums, nums.length - 1);
+    }
+    private int rob(int[] nums, int i) {
+        if (i < 0) {
+            return 0;
         }
+        return Math.max(rob(nums, i - 1), rob(nums, i - 2) + nums[i]);
+    }
+}
 
-        return Math.max(dp[n - 1][0], dp[n - 1][1]);
+/**
+ * DFS + memo
+ */
+class Solution2 {
+    public int rob(int[] nums) {
+        return rob(nums, nums.length - 1, new int[nums.length]);
+    }
+    private int rob(int[] nums, int i, int[] memo) {
+        if (i < 0) {
+            return 0;
+        }
+        if (memo[i] > 0) {
+            return memo[i];
+        }
+        memo[i] = Math.max(rob(nums, i - 1, memo), rob(nums, i - 2, memo) + nums[i]);
+        return memo[i];
     }
 }
 
 /**
  * 动态规划，一维数组
  */
-class Solution2 {
+class Solution3 {
     public int rob(int[] nums) {
         int n = nums.length;
         if (n < 2) return n == 0 ? 0 : nums[0];
@@ -43,7 +56,7 @@ class Solution2 {
 /**
  * 动态规划，常量复杂度
  */
-class Solution3 {
+class Solution4 {
     public int rob(int[] nums) {
         int n = nums.length;
         if (n < 2) return n == 0 ? 0 : nums[0];
