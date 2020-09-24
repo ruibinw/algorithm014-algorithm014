@@ -4,25 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class Solution1 {
-
-    List<List<Integer>> res = new ArrayList<>();
-
-    public List<List<Integer>> subsets(int[] nums) {
-        addSubsets(nums, new ArrayList<>(), 0);
-        return res;
-    }
-
-    private void addSubsets(int[] nums, List<Integer> list, int start) {
-        res.add(new ArrayList<>(list));
-        for (int i = start; i < nums.length; i++) {
-            list.add(nums[i]);
-            addSubsets(nums, new ArrayList<>(list), i + 1);
-            list.remove(list.size() - 1);
-        }
-    }
-}
-
+/**
+ * 回溯
+ * Time：O(2^n)，n个格子，每个格子有 2 种选择
+ * Space：O(n)，递归的最深度，O(2^n)结果的个数
+ */
 class Solution2 {
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> ans = new ArrayList<>();
@@ -43,6 +29,9 @@ class Solution2 {
     }
 }
 
+/**
+ * 循环
+ */
 class Solution3 {
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
