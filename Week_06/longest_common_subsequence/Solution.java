@@ -1,9 +1,12 @@
 package longest_common_subsequence;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 递归
- * Time: O(...)
- * Space: O(...)
+ * Time: O(2^mn), 最坏情况都要往两个分支走下去
+ * Space: O(m + n)
  */
 class Solution1 {
     public int longestCommonSubsequence(String text1, String text2) {
@@ -21,23 +24,48 @@ class Solution1 {
 }
 
 /**
+ * dfs + 记忆化
+ */
+class Solution2{
+    public int longestCommonSubsequence(String text1, String text2) {
+        return dfs(text1, text2, text1.length() - 1, text2.length() - 1, new HashMap<>());
+    }
+    private int dfs(String s1, String s2, int m, int n, Map<String, Integer> memo) {
+        if (m < 0 || n < 0)
+            return 0;
+
+        String key = m + "," + n;
+        if (memo.get(key) != null)
+            return memo.get(key);
+
+        int count = s1.charAt(m) == s2.charAt(n) ?
+                    dfs(s1, s2, m - 1, n - 1, memo) + 1 :
+                    Math.max(dfs(s1, s2, m, n - 1, memo), dfs(s1, s2, m - 1, n, memo));
+
+        memo.put(key, count);
+        return count;
+    }
+}
+
+/**
  * 动态规划：二维数组
  * Time: O(mn)
  * Space: O(mn)
  */
-class Solution2 {
+class Solution3 {
     public int longestCommonSubsequence(String text1, String text2) {
-        int[][] dp = new int[text1.length() + 1][text2.length() + 1];
+        int m = text1.length(), n = text2.length();
 
-        for (int i = 1; i <= text1.length(); i++) {
-            for (int j = 1; j <= text2.length(); j++) {
+        int[][] dp = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
                 if (text1.charAt(i - 1) == text2.charAt(j - 1))
                     dp[i][j] = dp[i - 1][j - 1] + 1;
                 else
                     dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
             }
         }
-        return dp[text1.length()][text2.length()];
+        return dp[m][n];
     }
 }
 
@@ -46,7 +74,7 @@ class Solution2 {
  * Time: O(mn)
  * Space: O(min(m, n))
  */
-class Solution3 {
+class Solution4 {
     public int longestCommonSubsequence(String text1, String text2) {
         int m = text1.length(), n = text2.length();
         if (m < n) return longestCommonSubsequence(text2, text1);
