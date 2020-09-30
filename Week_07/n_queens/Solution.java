@@ -6,9 +6,11 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * 回溯算法
+ * 回溯算法 + 哈希表记录位置
+ * Time: O(n!)
+ * Space: O(4n)
  */
-class Solution {
+class Solution1 {
     public List<List<String>> solveNQueens(int n) {
         List<List<String>> results = new ArrayList<>();
         int[] queens = new int[n];
@@ -49,3 +51,57 @@ class Solution {
         return board;
     }
 }
+
+/**
+ * 回溯算法 + 循环判断有效性
+ * Time: O(n!)
+ * Space: O(n)
+ */
+class Solution2 {
+    private int n;
+    private int[] queens;
+    private List<List<String>> results;
+
+    public List<List<String>> solveNQueens(int n) {
+        this.n = n;
+        this.queens = new int[n];
+        this.results = new ArrayList<>(n);
+        placeNextQueen(0);
+        return results;
+    }
+
+    private void placeNextQueen(int row) {
+        if (row == n) {
+            results.add(board());
+            return;
+        }
+
+        for (int col = 0; col < n; col++) {
+            if (valid(row, col)) {
+                queens[row] = col;
+                placeNextQueen(row + 1);
+            }
+        }
+    }
+
+    private boolean valid(int row, int col) {
+        int topLeft = col - 1, topRight = col + 1;
+        for (int i = row - 1; i >= 0; i--) {
+            if (queens[i] == col || queens[i] == topLeft-- || queens[i] == topRight++)
+                return false;
+        }
+        return true;
+    }
+
+    private List<String> board() {
+        List<String> board = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            char[] row = new char[n];
+            Arrays.fill(row, '.');
+            row[queens[i]] = 'Q';
+            board.add(new String(row));
+        }
+        return board;
+    }
+}
+
