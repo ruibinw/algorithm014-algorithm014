@@ -11,10 +11,10 @@ class Solution1 {
     }
     public boolean isValidBST(TreeNode root, long min, long max) {
         if (root == null) return true;
-        int val = root.val;
-        if (val > min && val < max && isValidBST(root.left, min, val) && isValidBST(root.right, val, max))
-            return true;
-        return false;
+        if (root.val <= min || root.val >= max) return false;
+        if (!isValidBST(root.left, min, root.val)) return false;
+        if (!isValidBST(root.right, root.val, max)) return false;
+        return true;
     }
 }
 
@@ -22,17 +22,22 @@ class Solution1 {
  * 中序遍历
  */
 class Solution2 {
-    long prev = Long.MIN_VALUE;
+    private long prev = Long.MIN_VALUE;
     public boolean isValidBST(TreeNode root) {
         //terminator
-        if (root == null) return true;
+        if (root == null)
+            return true;
         //left child check
-        if (isValidBST(root.left) == false) return false;
+        if (!isValidBST(root.left))
+            return false;
         //current node check and update prev
-        if (prev >= root.val) return false;
+        if (prev >= root.val)
+            return false;
         prev = root.val;
         //right child check
-        if (isValidBST(root.right) == false) return false;
+        if (!isValidBST(root.right))
+            return false;
+        //left-mid-right are all valid, then return true
         return true;
     }
 }
