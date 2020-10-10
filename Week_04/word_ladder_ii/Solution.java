@@ -2,6 +2,11 @@ package word_ladder_ii;
 
 import java.util.*;
 
+/**
+ * BFS建图 + DFS回溯查找路径
+ * Time: O(...)
+ * Space: O(...)
+ */
 class Solution {
     public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
         List<List<String>> result = new ArrayList<>();
@@ -10,7 +15,9 @@ class Solution {
             return result;
         }
 
+        //BFS buildGraph
         Map<String, List<String>> graph = buildGraph(beginWord, endWord, wordSet);
+        //DFS find all shortest path
         List<String> path = new ArrayList<>();
         path.add(beginWord);
         dfs(beginWord, endWord, graph, result, path);
@@ -65,6 +72,7 @@ class Solution {
                     }
                     nextLevelToVisit.add(nextWord);
 
+                    //Graph = HashTable with parent and children relationship (Adjacency List)
                     String parent = isBackward ? nextWord : curWord;
                     String child = isBackward ? curWord : nextWord;
                     if (!graph.containsKey(parent)) {
