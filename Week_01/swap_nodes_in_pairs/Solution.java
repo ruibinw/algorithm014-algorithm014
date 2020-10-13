@@ -24,19 +24,20 @@ class Solution1 {
  * 迭代
  * 时间复杂度：O(n)
  * 空间复杂度：O(1)
+ * 为了让第一队的状态和其他的一样，需要使用哨兵节点指向第一个节点
  */
 class Solution2 {
     public ListNode swapPairs(ListNode head) {
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        head = dummy;
+        ListNode prev = new ListNode(0);
+        prev.next = head;
+        head = prev;
         while (head.next != null && head.next.next != null) {
-            ListNode first = head.next, second = first.next, nextPair = second.next;
+            ListNode first = head.next, second = first.next, third = second.next;
             head.next = second;
             second.next = first;
-            first.next = nextPair;
+            first.next = third;
             head = first;
         }
-        return dummy.next;
+        return prev.next;
     }
 }
