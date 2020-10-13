@@ -1,5 +1,7 @@
 package sorting_algorithms;
 
+import java.util.Arrays;
+
 /**
  * 选择排序
  * 找最小放前面
@@ -123,5 +125,34 @@ class MergeSort {
         k = 0;
         while (k < tmp.length) a[lo + k] = tmp[k++];
         //System.arraycopy(tmp, 0, a, lo, tmp.length);
+    }
+}
+
+// 实现空间复杂度为 O(1) 的归并排序
+class MergeSort2 {
+    public static void sort(int[] arr) {
+        int maxVal = Arrays.stream(arr).max().getAsInt() + 1;
+        sort(arr, 0, arr.length - 1, maxVal);
+    }
+
+    private static void sort(int[] a, int l, int r, int maxVal) {
+        if (l >= r) return;
+        int m = (l + r) >>> 1;
+        sort(a, l, m, maxVal);
+        sort(a, m + 1, r, maxVal);
+        merge(a, l, m, r, maxVal);
+    }
+
+    private static void merge(int[] a, int l, int m, int r, int maxVal) {
+        int i = l, j = m + 1, k = l;
+
+        while (i <= m && j <= r)
+            a[k] = (a[i] % maxVal <= a[j] % maxVal) ?
+                a[k++] + (a[i++] % maxVal) * maxVal : a[k++] + (a[j++] % maxVal) * maxVal;
+
+        while (i <= m) a[k] = a[k++] + (a[i++] % maxVal) * maxVal;
+        while (j <= r) a[k] = a[k++] + (a[j++] % maxVal) * maxVal;
+
+        for (i = l; i <= r; i++) a[i] /= maxVal;
     }
 }
