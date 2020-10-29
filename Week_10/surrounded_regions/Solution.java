@@ -77,12 +77,11 @@ class Solution2 {
         }
     }
 
+    //并查集，这道题可以忽略 count
     class UnionFind {
-        int count;
         int[] parent;
 
         UnionFind(int n) {
-            count = n;
             parent = new int[n];
             for (int i = 0; i < n; i++) {
                 parent[i] = i;
