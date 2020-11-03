@@ -68,7 +68,7 @@ class Solution2 {
         return ans;
     }
     private void generateParenthesis(int n, List<String> ans, StringBuilder s, int L, int R) {
-        if (L == n && R == n) {
+        if (s.length() == 2*n) {
             ans.add(s.toString());
         }
         if (L < n) {
