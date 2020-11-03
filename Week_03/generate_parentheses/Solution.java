@@ -1,7 +1,6 @@
 package generate_parentheses;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 输出所有左右括号的组合（无论是否有效的括号组合）
@@ -79,5 +78,39 @@ class Solution2 {
             generateParenthesis(n, ans, s.append(")"), L, R + 1);
             s.deleteCharAt(s.length() - 1);
         }
+    }
+}
+
+/**
+ * BFS
+ */
+class Solution3 {
+    private class Node {
+        String str;
+        int left;
+        int right;
+        public Node(String str, int left, int right) {
+            this.str = str;
+            this.left = left;
+            this.right = right;
+        }
+    }
+    public List<String> generateParenthesis(int n) {
+        List<String> res = new ArrayList<>();
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(new Node("", 0, 0));
+        while (!queue.isEmpty()) {
+            Node node = queue.poll();
+            if (node.left == n && node.right == n) {
+                res.add(node.str);
+            }
+            if (node.left < n) {
+                queue.offer(new Node(node.str + "(", node.left + 1, node.right));
+            }
+            if (node.right < node.left) {
+                queue.offer(new Node(node.str + ")", node.left, node.right + 1));
+            }
+        }
+        return res;
     }
 }
