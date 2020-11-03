@@ -105,3 +105,48 @@ class Solution2 {
     }
 }
 
+/**
+ * 回溯算法 + 位运算
+ */
+class Solution3 {
+    private int n;
+    private int bits;
+    private int[] queens;
+    private List<List<String>> results;
+
+    public List<List<String>> solveNQueens(int n) {
+        this.n = n;
+        this.bits = ((1 << n) - 1);
+        this.queens = new int[n];
+        this.results = new ArrayList<>(n);
+        placeNextQueen(0, 0, 0, 0);
+        return results;
+    }
+    //columns, diag1, diag2 save the invalid loc to place the next Q (already covered by the prev Q)
+    private void placeNextQueen(int row, int columns, int diag1, int diag2) {
+        if (row == n) {
+            results.add(board());
+            return;
+        }
+        int availableLocations = bits & (~(columns | diag1 | diag2));//to get all loc to place Q
+        while (availableLocations != 0) {
+            int loc = availableLocations & (-availableLocations);//to get the first 1 (valid loc)
+            int col = Integer.bitCount(loc - 1);//get the first 1 loc in form of array index for queens
+            queens[row] = col;//place Q in array
+            availableLocations = availableLocations & (availableLocations - 1);//remove the last 1 in binary = remove the avail loc that we just place Q
+            placeNextQueen(row + 1, columns | loc, (diag1 | loc) << 1, (diag2 | loc) >> 1);//include the loc we just place Q in columns, diag1, diag2 using or |, and for diag we have to shift 1 loc to the left or right (topright diag or topleft respectively) to restrict the next Q
+        }
+
+    }
+
+    private List<String> board() {
+        List<String> board = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            char[] row = new char[n];
+            Arrays.fill(row, '.');
+            row[queens[i]] = 'Q';
+            board.add(new String(row));
+        }
+        return board;
+    }
+}

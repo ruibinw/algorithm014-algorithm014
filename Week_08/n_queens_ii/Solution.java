@@ -49,7 +49,7 @@ class Solution2 {
 
     public int totalNQueens(int n) {
         count = 0;
-        size = (1 << n) - 1; //二进制 n个 1 （如，n=4， size = 1111）
+        size = (1 << n) - 1; //生成二进制的 n 个 1 (能放皇后的所有位置)
         solve(0, 0, 0);
         return count;
     }
@@ -59,11 +59,11 @@ class Solution2 {
             count++;
             return;
         }
-        int pos = size & (~(row | ld | rd));
-        while (pos != 0) {
-            int p = pos & (-pos);
-            pos -= p;
-            solve(row | p, (ld | p) << 1, (rd | p) >> 1);
+        int locs = size & (~(row | ld | rd));//取出有效位置（有效位置 = 在当前行能放置皇后的位置）
+        while (locs != 0) {
+            int cur = locs & (-locs);//取出最右边的有效位置
+            solve(row | cur, (ld | cur) << 1, (rd | cur) >> 1);//更新被占用的位置，继续尝试下一行
+            locs -= cur;//去掉最右边的有效位置，继续尝试放置下一个有效位置
         }
     }
 }
