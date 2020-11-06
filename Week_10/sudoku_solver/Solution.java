@@ -4,62 +4,54 @@ class Solution {
     boolean[][] existInRow = new boolean[9][10];
     boolean[][] existInCol = new boolean[9][10];
     boolean[][][] existInBox = new boolean[3][3][10];
+    boolean isSolved = false;
 
     public void solveSudoku(char[][] board) {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (board[i][j] != '.') {
-                    int num = board[i][j] - '0';
-                    existInRow[i][num] = true;
-                    existInCol[j][num] = true;
-                    existInBox[i / 3][j / 3][num] = true;
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                if (board[row][col] != '.') {
+                    int num = board[row][col] - '0';
+                    setExistState(row, col, num, true);
                 }
             }
         }
         solve(board, 0, 0);
     }
 
-    private boolean solve(char[][] board, int row, int col) {
+    private void solve(char[][] board, int row, int col) {
         if (col == 9) {
             col = 0;
-            row++;
-            if (row == 9) return true;
+            if (++row == 9) {
+                isSolved = true;
+                return;
+            }
         }
 
         if (board[row][col] == '.') {
             for (int num = 1; num < 10; num++) {
-                if (existInRow[row][num] || existInCol[col][num] || existInBox[row / 3][col / 3][num])
-                    continue;
+                if (isNumExisted(row, col, num)) continue;
 
                 board[row][col] = (char) ('0' + num);
-                existInRow[row][num] = true;
-                existInCol[col][num] = true;
-                existInBox[row / 3][col / 3][num] = true;
+                setExistState(row, col, num, true);
 
-                if (solve(board, row, col + 1)) return true;
+                solve(board, row, col + 1);
+                if (isSolved) return;
 
                 board[row][col] = '.';
-                existInRow[row][num] = false;
-                existInCol[col][num] = false;
-                existInBox[row / 3][col / 3][num] = false;
+                setExistState(row, col, num, false);
             }
         } else {
-            return solve(board, row, col + 1);
+            solve(board, row, col + 1);
         }
-        return false;
     }
 
-    public static void main(String[] args) {
-        new Solution().solveSudoku(new char[][]{
-                {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
-                {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
-                {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
-                {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
-                {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
-                {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
-                {'.', '6', '.', '.', '.', '.', '2', '8', '.'},
-                {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
-                {'.', '.', '.', '.', '8', '.', '.', '7', '9'}
-        });
+    private void setExistState(int row, int col, int num, boolean state) {
+        existInRow[row][num] = state;
+        existInCol[col][num] = state;
+        existInBox[row / 3][col / 3][num] = state;
+    }
+
+    private boolean isNumExisted(int row, int col, int num) {
+        return existInRow[row][num] || existInCol[col][num] || existInBox[row / 3][col / 3][num];
     }
 }
