@@ -6,10 +6,10 @@ package word_search;
 class Solution {
     public boolean exist(char[][] board, String word) {
         if (board.length == 0) return false;
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-                if (board[i][j] == word.charAt(0)) {
-                    if (dfs(board, i, j, word, 0)) return true;
+        for (int x = 0; x < board.length; x++) {
+            for (int y = 0; y < board[0].length; y++) {
+                if (board[x][y] == word.charAt(0)) {
+                    if (exist(board, x, y, word, 0)) return true;
                 }
             }
         }
@@ -18,20 +18,18 @@ class Solution {
 
     private int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
-    private boolean dfs(char[][] board, int i, int j, String word, int ci) {
-        if (i < 0 || i >= board.length || j < 0 || j >= board[0].length || board[i][j] != word.charAt(ci))
+    private boolean exist(char[][] board, int x, int y, String word, int i) {
+        if (x < 0 || x >= board.length || y < 0 || y >= board[0].length || board[x][y] != word.charAt(i))
             return false;
 
-        if (ci == word.length() - 1)
+        if (i == word.length() - 1)
             return true;
 
-        char original = board[i][j];
-        board[i][j] = '*';
-        for (int[] d : directions) {
-            if (dfs(board, i + d[0], j + d[1], word, ci + 1))
-                return true;
-        }
-        board[i][j] = original;
+        board[x][y] = '*';
+        for (int[] d : directions)
+            if (exist(board, x + d[0], y + d[1], word, i + 1)) return true;
+
+        board[x][y] = word.charAt(i);
         return false;
     }
 }
